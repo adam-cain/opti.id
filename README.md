@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Opti.ID
+
+A decentralized domain name system for blockchain domains with the format `{adjective}-{descriptor}-{noun}.{chain}.opti.id`
+
+## Project Overview
+
+Opti.ID is a web3 platform that allows users to register and manage domain names on various blockchain networks. The project consists of:
+
+- Smart contracts for domain registration and management
+- A modern web frontend built with Next.js and React
+- Integration with Farcaster Frames
+
+## Project Structure
+
+This is a monorepo project with the following packages:
+
+- `packages/contracts` - Solidity smart contracts for the domain registry
+- `packages/frontend` - Next.js web application
+
+## Features
+
+- Register custom domains in the format `{adjective}-{descriptor}-{noun}.{chain}.opti.id`
+- Limit of 5 domains per user
+- Low registration fee of 0.0001 ETH
+- Support for multiple blockchain networks
+- Modern and responsive frontend
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js (version 16 or higher)
+- pnpm package manager
+- Hardhat for smart contract development
+- Metamask or other Web3 wallet
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/opti.id.git
+cd opti.id
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+pnpm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables:
+   - Copy `.env.example` to `.env` in the contracts and frontend packages
+   - Configure the required environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Development
 
-## Learn More
+#### Running the frontend:
+```bash
+pnpm frontend
+# or
+pnpm -filter frontend run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+#### Running the smart contract tests:
+```bash
+pnpm test
+# or
+pnpm -filter contracts run test
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Compiling the smart contracts:
+```bash
+pnpm compile
+# or
+pnpm -filter contracts run compile
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### Building the entire project:
+```bash
+pnpm build
+```
 
-## Deploy on Vercel
+## Smart Contracts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The core of the project is the `OptiIdRegistry.sol` contract, which handles:
+- Domain registration and ownership
+- Component-based domain structure
+- Fee management
+- Domain transfers and updates
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+[MIT License](LICENSE) 
