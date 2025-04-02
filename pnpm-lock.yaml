@@ -10,9 +10,9 @@ importers:
     dependencies:
       contracts:
         specifier: workspace:*
-        version: link:packages/contract
+        version: link:packages/contracts
 
-  packages/contract:
+  packages/contracts:
     dependencies:
       hardhat:
         specifier: ^2.16.0
@@ -143,7 +143,7 @@ importers:
         specifier: ^1.9.0
         version: 1.9.0
       '@types/node':
-        specifier: ^20
+        specifier: ^20.17.24
         version: 20.17.24
       '@types/react':
         specifier: ^18

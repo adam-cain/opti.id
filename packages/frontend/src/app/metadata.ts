@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-const appUrl = process.env.NEXT_PUBLIC_URL;
+const appUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:3000";
 
 const frame = {
   version: "next",
@@ -22,9 +22,10 @@ export const revalidate = 300;
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Opti.id",
+    description: "A Farcaster Frames for opti.id.",
     openGraph: {
       title: "Opti.id",
-      description: "A Farcaster Frames v2 demo app.",
+      description: "A Farcaster Frames for opti.id.",
     },
     other: {
       "fc:frame": JSON.stringify(frame),

@@ -1,6 +1,6 @@
 import { AuthOptions, getServerSession } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
-import { createAppClient, viemConnector } from "@farcaster/auth-client";
+import { createAppClient, viemConnector } from "@farcaster/auth-kit";
 
 declare module "next-auth" {
   interface Session {

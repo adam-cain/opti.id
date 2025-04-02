@@ -1,9 +1,11 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import CoinAnimation from "~/components/CoinAnimation";
 import confetti from "canvas-confetti";
 import { Button } from "./ui/Button";
 import { useSendTransaction } from "wagmi";
+import sdk from '@farcaster/frame-sdk';
+// import { type FrameContext } from '@farcaster/frame-core';
 
 const DEFAULT_LOGOS = [
   '/images/base.png',
@@ -17,12 +19,30 @@ export default function Frame() {
   const [claiming, setClaiming] = useState(false);
   const [blurred, setBlurred] = useState(true);
 
+  const [isSDKLoaded, setIsSDKLoaded] = useState(false);
+  // const [context, setContext] = useState<FrameContext>();
+
   const {
     sendTransaction,
     error: sendTxError,
     isError: isSendTxError,
     isPending: isSendTxPending,
   } = useSendTransaction();
+
+  useEffect(() => {
+    const load = async () => {
+      // setContext(await sdk.context);
+      sdk.actions.ready();
+    };
+    if (sdk && !isSDKLoaded) {
+      setIsSDKLoaded(true);
+      load();
+    }
+  }, [isSDKLoaded]);
+
+  // if (!isSDKLoaded) {
+  //   return <div>Loading...</div>;
+  // }
 
   const sendTx = useCallback(async () => {
     return new Promise((resolve, reject) => {
@@ -106,11 +126,12 @@ export default function Frame() {
   }, [triggerFireworks]);
 
   return (
-    <div className="h-[100dvh] w-full bg-white grid grid-rows-[auto_1fr_auto] px-3 sm:px-4 md:px-6 py-6 text-stone-900">
+    <>
+    <div className="h-[100dvh] w-full grid grid-rows-[auto_1fr_auto] text-stone-900 max-w-[100vw] overflow-x-hidden">
       <header className="border-[0.5px] border-b-0 border-stone-200 px-4 py-2">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-light text-left">opti.id</h1>
       </header>
-
+      
       <main className="relative flex items-center justify-center overflow-hidden w-full max-h-full mx-auto border-[0.5px] border-stone-200">
         <div 
           className="size-full absolute top-0 left-0" 
@@ -132,14 +153,18 @@ export default function Frame() {
           />
         </div>
       </main>
-
+      { sendTxError && <footer className="flex justify-center border-[0.5px] border-t-0 border-stone-200 text-red-500 p-4 text-wrap">
+        <p>{sendTxError?.message}</p>
+      </footer>
+      }
       <footer className="flex justify-center border-[0.5px] border-t-0 border-stone-200">
         <Button onClick={sendTx} disabled={isSendTxPending || claiming} isLoading={isSendTxPending || claiming}>
           {isSendTxPending || claiming ? "Claiming..." : "Claim"}
         </Button>
-        {sendTxError && <p className="text-red-500">{sendTxError?.message}</p>}
       </footer>
     </div>
+
+    </>
   );
 }
 

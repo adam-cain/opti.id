@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+// import type { Metadata } from "next";
 
-import { getSession } from "~/auth"
+// import { getSession } from "~/auth"
 import "~/app/globals.css";
-import { Providers } from "~/app/providers";
 import { generateMetadata } from "./metadata";
 import { PT_Mono } from "next/font/google";
+import { Providers } from "./providers";
 
 const ptMono = PT_Mono({
   weight: ["400"],
@@ -18,12 +18,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getSession()
-  
   return (
     <html lang="en">
-      <body className={ptMono.className}>
-        <Providers session={session}>{children}</Providers>
+      <body className={`bg-white max-w-[100vw] max-h-[100dvh] ${ptMono.className}`}>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
