@@ -1,16 +1,15 @@
 {
+    "name": "opti.id",
     "private": true,
     "workspaces": [
-        "packages/*"
+        "apps/*",
+        "contracts"
     ],
     "scripts": {
-        "build": "pnpm -r run build",
+        "build": "cd ./packages/contract && forge build",
+        "test": "cd ./packages/contract && forge test",
+        "deploy": "cd ./packages/contract && source .env && forge script script/DeployProductionRegistry.s.sol --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast --verify --chain optimism-sepolia --etherscan-api-key $ETHERSCAN_API_KEY",
         "dev": "pnpm -r run dev",
-        "test": "pnpm -filter contracts run test",
-        "compile": "pnpm -filter contracts run compile",
-        "frontend": "pnpm -filter frames-v2-demo run dev"
-    },
-    "dependencies": {
-        "contracts": "workspace:*"
+        "install": "cd ./packages/contract && forge install"
     }
 }
