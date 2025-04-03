@@ -9,6 +9,7 @@ import { DomainImplementation } from "../src/DomainImplementation.sol";
 import { DomainUpgradeableProxy } from "../src/DomainUpgradeableProxy.sol";
 import { TransparentUpgradeableProxy } from "@openzeppelin/contracts/proxy/transparent/TransparentUpgradeableProxy.sol";
 import { ProxyAdmin } from "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
+import { Constants } from "../generated/Constants.sol";
 
 /**
  * @title DeployProductionRegistryScript
@@ -19,39 +20,8 @@ contract DeployProductionRegistryScript is Script {
     // Use current block timestamp as salt for deterministic deployment
     bytes32 internal immutable SALT;
     // Define the chains in the superchain
-    string[] public chains = [
-        "Automata",
-        "BOB",
-        "Base",
-        "Binary",
-        "Cyber",
-        "Ethernity",
-        "Funki",
-        "HashKey-Chain",
-        "Ink",
-        "Lisk",
-        "Lyra-Chain",
-        "Metal-L2",
-        "Mint",
-        "Mode",
-        "OP",
-        "Orderly",
-        "Polynomial",
-        "RACE",
-        "Redstone",
-        "Settlus",
-        "Shape",
-        "SnaxChain",
-        "Soneium",
-        "Superseed",
-        "Swan-Chain",
-        "Swellchain",
-        "Unichain",
-        "World-Chain",
-        "Xterio-Chain",
-        "Zora",
-        "Arena-z"
-    ];
+    Constants private constants;
+    string[] public chains;
 
     // Deployment addresses
     address public implementationLogicAddr;
@@ -70,8 +40,19 @@ contract DeployProductionRegistryScript is Script {
     bool public skipExistingDeployments = true;
 
     constructor() {
-        // Use current block timestamp as salt for new deployments every deployment, change to static value for deterministic deployments.
+        // Use current block timestamp as salt for new deployments every deployment 
+        // change to static value for deterministic deployments.
         SALT = bytes32(uint256(block.timestamp));
+        
+        // Initialize constants contract
+        constants = new Constants();
+        
+        // Get chains from the constants contract
+        uint256 chainsCount = constants.getChainsCount();
+        chains = new string[](chainsCount);
+        for (uint256 i = 0; i < chainsCount; i++) {
+            chains[i] = constants.CHAINS(i);
+        }
     }
 
     function setUp() public {

@@ -6,10 +6,14 @@
         "contracts"
     ],
     "scripts": {
-        "build": "cd ./packages/contract && forge build",
-        "test": "cd ./packages/contract && forge test",
+        "build": "pnpm run build:constants && pnpm -r build",
+        
+        "build:constants": "cd packages/constants && pnpm run build",
+        "generate:solidity": "cd packages/constants && pnpm run generate-solidity",
+        
+        "test": "echo \"Error: no test specified\" && exit 1",
         "deploy": "cd ./packages/contract && source .env && forge script script/DeployProductionRegistry.s.sol --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast --verify --chain optimism-sepolia --etherscan-api-key $ETHERSCAN_API_KEY",
         "dev": "pnpm -r run dev",
-        "install": "cd ./packages/contract && forge install"
+        "install": "cd ./contract && forge install"
     }
 }

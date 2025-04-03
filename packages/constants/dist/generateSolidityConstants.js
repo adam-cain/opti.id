@@ -1,0 +1,86 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateSolidityConstants = generateSolidityConstants;
+const fs = __importStar(require("fs"));
+const path = __importStar(require("path"));
+const chains_1 = require("./chains");
+// Path to output the Solidity file
+const outputPath = path.resolve(__dirname, '../../..', 'contract/generated/Constants.sol');
+// Generate Solidity contract with constants
+function generateSolidityConstants() {
+    const content = `// SPDX-License-Identifier: MIT
+// This file is auto-generated. Do not edit directly.
+pragma solidity ^0.8.17;
+
+/**
+ * @title Constants
+ * @notice Auto-generated constants for use in Solidity contracts
+ */
+contract Constants {
+    // Chain names in the superchain
+    string[] public CHAINS = [
+${chains_1.CHAINS.map(chain => `        "${chain}"`).join(',\n')}
+    ];
+
+    /**
+     * @notice Returns the list of all chains
+     * @return Array of chain names
+     */
+    function getChains() external view returns (string[] memory) {
+        return CHAINS;
+    }
+
+    /**
+     * @notice Returns the number of chains
+     * @return Number of chains
+     */
+    function getChainsCount() external view returns (uint256) {
+        return CHAINS.length;
+    }
+}`;
+    // Ensure directory exists
+    const dir = path.dirname(outputPath);
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
+    // Write the file
+    fs.writeFileSync(outputPath, content);
+    console.log(`Generated Solidity constants at: ${outputPath}`);
+}
+// If the script is run directly
+if (require.main === module) {
+    generateSolidityConstants();
+}

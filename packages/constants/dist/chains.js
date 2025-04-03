@@ -1,0 +1,36 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CHAINS = void 0;
+exports.CHAINS = [
+    "Automata",
+    "BOB",
+    "Base",
+    "Binary",
+    "Cyber",
+    "Ethernity",
+    "Funki",
+    "HashKey-Chain",
+    "Ink",
+    "Lisk",
+    "Lyra-Chain",
+    "Metal-L2",
+    "Mint",
+    "Mode",
+    "OP",
+    "Orderly",
+    "Polynomial",
+    "RACE",
+    "Redstone",
+    "Settlus",
+    "Shape",
+    "SnaxChain",
+    "Soneium",
+    "Superseed",
+    "Swan-Chain",
+    "Swellchain",
+    "Unichain",
+    "World-Chain",
+    "Xterio-Chain",
+    "Zora",
+    "Arena-z"
+];

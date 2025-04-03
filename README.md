@@ -93,4 +93,46 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-[MIT License](LICENSE) 
+[MIT License](LICENSE)
+
+## Shared Constants
+
+This project uses a shared constants package for both the TypeScript frontend and Solidity contracts:
+
+```
+packages/
+  constants/         # Shared constants package
+    src/
+      wordLists.ts   # Word lists for random name generation
+      chains.ts      # Chain list for the superchain
+      index.ts       # Main exports
+      generateSolidityConstants.ts  # Script to generate Solidity constants
+```
+
+### Using Constants
+
+#### In TypeScript (apps/farcaster-frame)
+
+```typescript
+import { ADJECTIVES, DESCRIPTORS, NOUNS, CHAINS } from '@opti.id/constants';
+```
+
+#### In Solidity (contract/)
+
+First, generate the Solidity constants file:
+
+```bash
+pnpm run generate:solidity
+```
+
+Then import in your contract:
+
+```solidity
+import { Constants } from "../src/generated/Constants.sol";
+```
+
+### Adding or Modifying Constants
+
+1. Edit the relevant files in `packages/constants/src/`
+2. Run `pnpm run build:constants` to build the TypeScript package
+3. Run `pnpm run generate:solidity` to generate the Solidity file 
